@@ -1,50 +1,50 @@
-# React + TypeScript + Vite
+# React, TypeScript, and Vite Integration
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This template offers a streamlined setup for integrating React with Vite, featuring Hot Module Replacement (HMR) and predefined ESLint configurations.
 
-Currently, two official plugins are available:
+The following two official plugins are currently available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md): Utilizes [Babel](https://babeljs.io/) to implement Fast Refresh functionality.
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc): Employs [SWC](https://swc.rs/) for Fast Refresh capabilities.
 
-## Expanding the ESLint configuration
+## Enhancing the ESLint Configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+For production-grade applications, it is recommended to update the ESLint configuration to incorporate type-aware linting rules:
 
 - Configure the top-level `parserOptions` property like this:
 
-```js
+```javascript
 export default tseslint.config({
   languageOptions: {
-    // other options...
+    // Additional configuration options
     parserOptions: {
       project: ['./tsconfig.node.json', './tsconfig.app.json'],
       tsconfigRootDir: import.meta.dirname,
     },
   },
-})
+});
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
+- Replace `tseslint.configs.recommended` with either `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`.
+- Optionally, include `...tseslint.configs.stylisticTypeChecked` for additional stylistic linting rules.
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
 
-```js
+```javascript
 // eslint.config.js
-import react from 'eslint-plugin-react'
+import react from 'eslint-plugin-react';
 
 export default tseslint.config({
-  // Set the react version
+  // Specify the React version
   settings: { react: { version: '18.3' } },
   plugins: {
-    // Add the react plugin
+    // Integrate the React plugin
     react,
   },
   rules: {
-    // other rules...
-    // Enable its recommended rules
+    // Additional linting rules
+    // Activate the recommended React rules
     ...react.configs.recommended.rules,
     ...react.configs['jsx-runtime'].rules,
   },
-})
+});
 ```

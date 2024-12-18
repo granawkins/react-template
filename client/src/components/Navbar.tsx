@@ -8,12 +8,12 @@ const Navbar = () => {
         top: 0,
         left: 0,
         right: 0,
-        backgroundColor: 'rgba(20, 20, 20, 0.7)',
+        backgroundColor: 'rgba(30, 144, 255, 0.9)', // Blue background
         padding: '1rem 2rem',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+        boxShadow: '0 2px 8px rgba(30, 144, 255, 0.3)',
       }}
     >
       <div
@@ -22,7 +22,7 @@ const Navbar = () => {
           fontWeight: 'bold',
         }}
       >
-        <Link to="/">Bulletin Board</Link>
+        <Link to="/" style={{ color: '#FF8C00' }}>Bulletin Board</Link>
       </div>
       <div
         style={{
@@ -30,7 +30,7 @@ const Navbar = () => {
           gap: '2rem',
         }}
       >
-        <Link to="/contact">Contact</Link>
+        <Link to="/contact" style={{ color: '#FF8C00', ':hover': { color: '#FFA500' } }}>Contact</Link>
       </div>
     </nav>
   );

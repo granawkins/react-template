@@ -88,7 +88,7 @@ const Home = () => {
             backgroundColor: 'rgba(255, 255, 255, 0.95)',
             padding: '1rem',
             borderRadius: '0.75rem',
-            boxShadow: '0 2px 8px rgba(30, 144, 255, 0.1)',
+            boxShadow: '0 2px 8px rgba(255, 105, 180, 0.1)',
           }}
         >
           <textarea
@@ -107,7 +107,7 @@ const Home = () => {
               minHeight: '100px',
               width: '100%',
               '::placeholder': {
-                color: 'rgba(30, 144, 255, 0.6)',
+                color: 'rgba(255, 105, 180, 0.6)',
               },
             }}
           />
@@ -115,7 +115,7 @@ const Home = () => {
             type="submit"
             style={{
               width: '90px',
-              backgroundColor: '#FF8C00',
+              backgroundColor: '#FF69B4',
               borderRadius: '0.75rem',
               border: 'none',
               outline: 'none',
@@ -125,7 +125,7 @@ const Home = () => {
               color: 'white',
               transition: 'background-color 0.2s',
               ':hover': {
-                backgroundColor: '#FFA500',
+                backgroundColor: '#FF1493',
               },
             }}
           >

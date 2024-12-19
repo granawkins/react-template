@@ -85,9 +85,10 @@ const Home = () => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'flex-end',
-            backgroundColor: 'white',
+            backgroundColor: 'rgba(255, 255, 255, 0.95)',
             padding: '1rem',
             borderRadius: '0.75rem',
+            boxShadow: '0 2px 8px rgba(64, 224, 208, 0.1)',
           }}
         >
           <textarea
@@ -98,26 +99,34 @@ const Home = () => {
               fontSize: '1rem',
               lineHeight: '1.5',
               fontFamily: 'inherit',
-              color: '#1a1a1a',
+              color: '#2F4F4F',
               backgroundColor: 'transparent',
               border: 'none',
               outline: 'none',
               overflow: 'auto',
               minHeight: '100px',
               width: '100%',
+              '::placeholder': {
+                color: 'rgba(64, 224, 208, 0.6)',
+              },
             }}
           />
           <button
             type="submit"
             style={{
               width: '90px',
-              backgroundColor: 'peru',
+              backgroundColor: '#20B2AA',
               borderRadius: '0.75rem',
               border: 'none',
               outline: 'none',
               padding: '0.5rem',
               fontWeight: 'bold',
               cursor: 'pointer',
+              color: 'white',
+              transition: 'background-color 0.2s',
+              ':hover': {
+                backgroundColor: '#008B8B',
+              },
             }}
           >
             Send

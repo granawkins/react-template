@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import PongGame from './PongGame';
 
 interface Note {
   id: number;
@@ -76,7 +77,8 @@ const Home = () => {
 
   return (
     <div className="page" style={{ alignItems: 'center' }}>
-      <div style={{ maxWidth: '400px' }}>
+      <PongGame />
+      <div style={{ maxWidth: '400px', marginTop: '2rem' }}>
         <form
           onSubmit={handleSubmit}
           style={{

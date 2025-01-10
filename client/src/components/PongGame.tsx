@@ -16,66 +16,75 @@ interface GameState {
   rightScore: number;
 }
 
-const drawNouveauElement = (
+const drawSciFiElement = (
   context: CanvasRenderingContext2D,
   x: number,
   y: number,
   width: number,
   height: number,
-  isAccent = false
+  isNeon = false
 ) => {
-  // Create gradient for art nouveau style
+  // Create gradient for sci-fi style
   const gradient = context.createLinearGradient(x, y, x + width, y + height);
-  if (isAccent) {
-    gradient.addColorStop(0, '#8B4513');   // Saddle brown
-    gradient.addColorStop(0.5, '#CD853F'); // Peru
-    gradient.addColorStop(1, '#8B4513');   // Saddle brown
+  if (isNeon) {
+    gradient.addColorStop(0, '#00ff9f');   // Neon green
+    gradient.addColorStop(0.5, '#00ffdd'); // Cyan
+    gradient.addColorStop(1, '#00ff9f');   // Neon green
   } else {
-    gradient.addColorStop(0, '#F5DEB3');   // Wheat
-    gradient.addColorStop(0.5, '#DEB887'); // Burlywood
-    gradient.addColorStop(1, '#F5DEB3');   // Wheat
+    gradient.addColorStop(0, '#4df0ff');   // Bright cyan
+    gradient.addColorStop(0.5, '#0099ff'); // Blue
+    gradient.addColorStop(1, '#4df0ff');   // Bright cyan
   }
   
+  // Draw main shape
   context.fillStyle = gradient;
-  context.shadowBlur = 8;
-  context.shadowColor = isAccent ? 'rgba(139, 69, 19, 0.4)' : 'rgba(245, 222, 179, 0.4)';
+  context.fillRect(x, y, width, height);
   
-  // Draw with curved corners
-  context.beginPath();
-  context.moveTo(x + 5, y);
-  context.lineTo(x + width - 5, y);
-  context.quadraticCurveTo(x + width, y, x + width, y + 5);
-  context.lineTo(x + width, y + height - 5);
-  context.quadraticCurveTo(x + width, y + height, x + width - 5, y + height);
-  context.lineTo(x + 5, y + height);
-  context.quadraticCurveTo(x, y + height, x, y + height - 5);
-  context.lineTo(x, y + 5);
-  context.quadraticCurveTo(x, y, x + 5, y);
-  context.fill();
+  // Add neon glow effect
+  context.shadowBlur = 15;
+  context.shadowColor = isNeon ? '#00ff9f' : '#4df0ff';
+  context.strokeStyle = isNeon ? '#00ffdd' : '#0099ff';
+  context.lineWidth = 1;
+  context.strokeRect(x, y, width, height);
+  
+  // Add highlight
+  context.fillStyle = 'rgba(255, 255, 255, 0.3)';
+  context.fillRect(x, y, width, 2);
+  
   context.shadowBlur = 0;
 };
 
-const drawNouveauPattern = (context: CanvasRenderingContext2D) => {
-  // Draw art nouveau floral border pattern
-  context.strokeStyle = '#8B4513';
-  context.lineWidth = 2;
+const drawSciFiGrid = (context: CanvasRenderingContext2D) => {
+  // Draw futuristic grid pattern
+  context.strokeStyle = 'rgba(0, 255, 255, 0.1)';
+  context.lineWidth = 1;
   
-  const drawCurve = (startX: number, startY: number, controlX: number, controlY: number, endX: number, endY: number) => {
+  // Draw horizontal lines
+  for (let y = 20; y < CANVAS_HEIGHT; y += 40) {
     context.beginPath();
-    context.moveTo(startX, startY);
-    context.quadraticCurveTo(controlX, controlY, endX, endY);
+    context.moveTo(0, y);
+    context.lineTo(CANVAS_WIDTH, y);
     context.stroke();
-  };
-
-  // Draw flowing vine patterns
-  for (let x = 20; x < CANVAS_WIDTH - 20; x += 80) {
-    // Top border vine
-    drawCurve(x, 10, x + 20, 5, x + 40, 10);
-    drawCurve(x + 40, 10, x + 60, 15, x + 80, 10);
-    
-    // Bottom border vine
-    drawCurve(x, CANVAS_HEIGHT - 10, x + 20, CANVAS_HEIGHT - 15, x + 40, CANVAS_HEIGHT - 10);
-    drawCurve(x + 40, CANVAS_HEIGHT - 10, x + 60, CANVAS_HEIGHT - 5, x + 80, CANVAS_HEIGHT - 10);
+  }
+  
+  // Draw vertical lines
+  for (let x = 20; x < CANVAS_WIDTH; x += 40) {
+    context.beginPath();
+    context.moveTo(x, 0);
+    context.lineTo(x, CANVAS_HEIGHT);
+    context.stroke();
+  }
+  
+  // Add some random "data points"
+  context.fillStyle = '#00ff9f';
+  for (let i = 0; i < 20; i++) {
+    const x = Math.random() * CANVAS_WIDTH;
+    const y = Math.random() * CANVAS_HEIGHT;
+    context.fillRect(x, y, 2, 2);
+    context.shadowBlur = 5;
+    context.shadowColor = '#00ff9f';
+    context.fillRect(x, y, 2, 2);
+    context.shadowBlur = 0;
   }
 };
 
@@ -183,39 +192,33 @@ const PongGame = () => {
     const render = () => {
       if (!context) return;
 
-      // Clear canvas with art nouveau background
+      // Clear canvas with sci-fi background
       const bgGradient = context.createLinearGradient(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-      bgGradient.addColorStop(0, '#2F4F4F');  // Dark slate gray
-      bgGradient.addColorStop(1, '#1a332f');  // Darker green
+      bgGradient.addColorStop(0, '#000033');  // Deep space blue
+      bgGradient.addColorStop(1, '#000066');  // Slightly lighter space blue
       context.fillStyle = bgGradient;
       context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-      // Draw decorative patterns
-      drawNouveauPattern(context);
+      // Draw grid pattern
+      drawSciFiGrid(context);
 
-      // Draw center line with flowing vine pattern
-      context.strokeStyle = '#8B4513';
+      // Draw center line with digital effect
+      context.strokeStyle = '#00ffdd';
       context.lineWidth = 2;
-      let prevX = CANVAS_WIDTH / 2;
-      let prevY = 0;
-      for (let y = 20; y < CANVAS_HEIGHT; y += 40) {
-        const offsetX = Math.sin(y * 0.05) * 5;
+      context.shadowBlur = 10;
+      context.shadowColor = '#00ffdd';
+      
+      for (let y = 10; y < CANVAS_HEIGHT; y += 20) {
         context.beginPath();
-        context.moveTo(prevX, prevY);
-        context.quadraticCurveTo(
-          CANVAS_WIDTH / 2 + offsetX,
-          (prevY + y) / 2,
-          CANVAS_WIDTH / 2,
-          y
-        );
+        context.moveTo(CANVAS_WIDTH / 2, y);
+        context.lineTo(CANVAS_WIDTH / 2, y + 10);
         context.stroke();
-        prevX = CANVAS_WIDTH / 2;
-        prevY = y;
       }
+      context.shadowBlur = 0;
 
-      // Draw paddles with art nouveau style
-      drawNouveauElement(context, 0, gameState.leftPaddle.y, PADDLE_WIDTH, PADDLE_HEIGHT, true);
-      drawNouveauElement(
+      // Draw paddles with sci-fi style
+      drawSciFiElement(context, 0, gameState.leftPaddle.y, PADDLE_WIDTH, PADDLE_HEIGHT, true);
+      drawSciFiElement(
         context,
         CANVAS_WIDTH - PADDLE_WIDTH,
         gameState.rightPaddle.y,
@@ -224,12 +227,14 @@ const PongGame = () => {
         true
       );
 
-      // Draw ball with art nouveau style
-      drawNouveauElement(context, gameState.ball.x, gameState.ball.y, BALL_SIZE, BALL_SIZE);
+      // Draw ball with sci-fi style
+      drawSciFiElement(context, gameState.ball.x, gameState.ball.y, BALL_SIZE, BALL_SIZE);
 
-      // Draw scores with art nouveau style
-      context.font = '32px "Cinzel Decorative", serif';
-      context.fillStyle = '#CD853F';
+      // Draw scores with sci-fi style
+      context.font = '32px "Share Tech Mono", monospace';
+      context.fillStyle = '#00ffdd';
+      context.shadowBlur = 10;
+      context.shadowColor = '#00ffdd';
       context.textAlign = 'center';
       context.fillText(gameState.leftScore.toString(), CANVAS_WIDTH / 4, 50);
       context.fillText(gameState.rightScore.toString(), (CANVAS_WIDTH * 3) / 4, 50);
@@ -255,9 +260,9 @@ const PongGame = () => {
       className="card" 
       style={{ 
         padding: '2rem',
-        background: 'linear-gradient(145deg, #2F4F4F, #1a332f)',
-        border: '2px solid #8B4513',
-        boxShadow: '0 0 30px rgba(139, 69, 19, 0.2)',
+        background: 'linear-gradient(145deg, #000033, #000066)',
+        border: '2px solid #00ffdd',
+        boxShadow: '0 0 30px rgba(0, 255, 221, 0.2)',
         position: 'relative',
         overflow: 'hidden'
       }}
@@ -270,22 +275,21 @@ const PongGame = () => {
       }}>
         <h2 style={{ 
           margin: 0,
-          color: '#CD853F',
-          textTransform: 'capitalize',
-          letterSpacing: '4px',
-          textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)',
-          fontFamily: '"Cinzel Decorative", serif',
-          fontSize: '42px',
+          color: '#00ffdd',
+          textTransform: 'uppercase',
+          letterSpacing: '6px',
+          textShadow: '0 0 10px rgba(0, 255, 221, 0.5)',
+          fontFamily: '"Orbitron", sans-serif',
+          fontSize: '36px',
           fontWeight: 'bold'
-        }}>Pong</h2>
+        }}>P.O.N.G</h2>
         <p style={{
-          color: '#DEB887',
+          color: '#4df0ff',
           margin: '15px 0 0',
-          fontSize: '16px',
-          fontFamily: '"Cormorant Garamond", serif',
-          letterSpacing: '1px',
-          fontStyle: 'italic'
-        }}>Use W/S and ↑/↓ to control paddles</p>
+          fontSize: '14px',
+          fontFamily: '"Share Tech Mono", monospace',
+          letterSpacing: '2px'
+        }}>SYSTEM: USE W/S AND ↑/↓ TO CONTROL PADDLES</p>
       </div>
       <div style={{
         position: 'relative',
@@ -311,11 +315,10 @@ const PongGame = () => {
           right: 0,
           bottom: 0,
           background: `
-            radial-gradient(circle at 50% 50%, #8B4513 2px, transparent 2px),
-            radial-gradient(circle at 0% 50%, #8B4513 1px, transparent 1px),
-            radial-gradient(circle at 100% 50%, #8B4513 1px, transparent 1px)
+            linear-gradient(90deg, transparent 50%, rgba(0, 255, 221, 0.05) 50%),
+            linear-gradient(rgba(0, 255, 221, 0.05) 50%, transparent 50%)
           `,
-          backgroundSize: '40px 40px, 40px 40px, 40px 40px',
+          backgroundSize: '20px 20px',
           pointerEvents: 'none',
           opacity: 0.1,
         }} />
